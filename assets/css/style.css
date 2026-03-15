@@ -9,25 +9,17 @@
 :root {
 
   --bg: #131316;
-  /* Dark Zinc/Slate */
   --bg2: #18181b;
-  /* Elevated surface */
   --bg3: #27272a;
-  /* Hover surface */
   --border: #3f3f46;
-  /* Soft border */
   --border-hover: #52525b;
 
   --text: #f4f4f5;
-  /* Off-white */
   --muted: #a1a1aa;
-  /* Soft gray */
   --faint: #71717a;
 
-  /* Minimal accent */
   --accent: #ffffff;
 
-  /* Subtle semantic colors for tags */
   --red: #fca5a5;
   --red-dim: rgba(252, 165, 165, 0.1);
   --cyan: #67e8f9;
@@ -93,7 +85,6 @@ body.light-theme {
   height: 16px;
 }
 
-/* Show moon in dark mode, sun in light mode */
 .theme-icon-sun {
   display: none;
 }
@@ -125,7 +116,7 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Smooth Animated Wave Background */
+/* Wave Background */
 @keyframes waveAnim1 {
   0% {
     transform: translateX(0);
@@ -156,7 +147,6 @@ body {
   }
 }
 
-/* ---- Shared wave base ---- */
 body::after,
 body::before,
 .wave-front {
@@ -172,7 +162,6 @@ body::before,
   z-index: 0;
 }
 
-/* Layer 1 — Back: tallest so its crest is always visible above the others */
 body::after {
   height: 75vh;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200" preserveAspectRatio="none"><path fill="currentColor" d="M0,100 C180,160 360,40 720,100 C1080,160 1260,40 1440,100 L1440,200 L0,200 Z"/></svg>');
@@ -181,7 +170,6 @@ body::after {
   animation: waveAnim1 22s linear infinite;
 }
 
-/* Layer 2 — Mid: clearly separate crest height */
 body::before {
   height: 55vh;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200" preserveAspectRatio="none"><path fill="currentColor" d="M0,100 C180,40 360,160 720,100 C1080,40 1260,160 1440,100 L1440,200 L0,200 Z"/></svg>');
@@ -190,7 +178,6 @@ body::before {
   animation: waveAnim2 16s linear infinite;
 }
 
-/* Layer 3 — Front: shortest, always in front */
 .wave-front {
   height: 38vh;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200" preserveAspectRatio="none"><path fill="currentColor" d="M0,100 C180,160 360,40 720,100 C1080,160 1260,40 1440,100 L1440,200 L0,200 Z"/></svg>');
@@ -204,7 +191,7 @@ body.light-theme::after  { color: #94a3b8; opacity: 0.18; }
 body.light-theme::before { color: #cbd5e1; opacity: 0.14; }
 body.light-theme .wave-front { color: #e2e8f0; opacity: 0.10; }
 
-/* Top radial glow — gives the upper area a soft ambient depth */
+/* Background glow */
 .bg-glow {
   position: fixed;
   top: -20vh;
@@ -231,7 +218,7 @@ body.light-theme nav {
   color: var(--bg);
 }
 
-/* Base Elements */
+/* Base */
 * {
   position: relative;
   z-index: 1;
@@ -241,7 +228,7 @@ body.light-theme nav {
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
 }
 
-/* Navigation - Ultra Minimal */
+/* Nav */
 nav {
   position: fixed;
   top: 0;
@@ -409,7 +396,7 @@ nav a:hover {
   border-color: var(--text);
 }
 
-/* Discord Button Specific Styling */
+/* Discord Button */
 .btn-discord {
   background: var(--bg2);
   color: var(--text);
@@ -489,7 +476,7 @@ section {
   margin: 0 auto;
 }
 
-/* Skills Grid Modeled like minimal cards */
+/* Skills Grid */
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -685,7 +672,6 @@ section {
   font-weight: 500;
 }
 
-/* Subtle neutral keyword */
 .fn {
   color: var(--text);
 }
@@ -765,14 +751,14 @@ section {
   }
 }
 
-/* Contact Section */
+/* Contact */
 .contact-layout {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2.5rem;
 }
 
-/* Discord Profile Embed */
+/* Discord Embed */
 .discord-embed {
   display: flex;
   align-items: center;
@@ -826,7 +812,7 @@ section {
   white-space: nowrap;
 }
 
-/* Social Cards Grid */
+/* Socials Grid */
 .socials-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -876,7 +862,7 @@ section {
   color: var(--faint);
 }
 
-/* SVG Star Ratings */
+/* Stars */
 .feedback-stars {
   display: flex;
   gap: 2px;
@@ -951,7 +937,7 @@ footer a:hover {
   color: var(--text);
 }
 
-/* "Currently working on" Badge */
+/* Badge */
 .working-on-badge {
   display: inline-flex;
   align-items: center;
@@ -980,7 +966,7 @@ footer a:hover {
   flex-shrink: 0;
 }
 
-/* Status Dot — always animated */
+/* Status Dot */
 .status-dot {
   display: inline-block;
   width: 8px;
@@ -990,7 +976,7 @@ footer a:hover {
   animation: pulse 2.5s infinite ease-in-out;
 }
 
-/* Feedback Section - Horizontal Scroll */
+/* Feedback */
 .feedback-grid {
   display: flex;
   overflow-x: auto;
@@ -1000,7 +986,7 @@ footer a:hover {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Custom minimal scrollbar for the feedback grid */
+/* Scrollbar */
 .feedback-grid::-webkit-scrollbar {
   height: 8px;
 }
@@ -1021,7 +1007,6 @@ footer a:hover {
 .feedback-card {
   flex: 0 0 320px;
   background: var(--bg2);
-  /* Slightly elevated by default */
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.75rem;
@@ -1152,7 +1137,7 @@ footer a:hover {
   opacity: 1;
 }
 
-/* Badge Glow Animation */
+/* Badge Glow */
 .badge-glow {
   position: relative;
   overflow: hidden;
@@ -1162,7 +1147,6 @@ footer a:hover {
 .badge-glow:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
-  /* Adjust green tint */
 }
 
 .badge-glow::after {
@@ -1191,7 +1175,7 @@ footer a:hover {
   }
 }
 
-/* Modal Overlay */
+/* Modal */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -1199,7 +1183,6 @@ footer a:hover {
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.85);
-  /* Dark background */
   backdrop-filter: blur(4px);
   z-index: 2000;
   display: flex;

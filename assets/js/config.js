@@ -126,7 +126,7 @@ window.portfolioConfig = {
     }
   ],
 
-  // Feedback / Testimonials
+  // Feedback
   feedback: [
     // Example:
     // {
