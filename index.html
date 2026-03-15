@@ -6,330 +6,14 @@
   <title>Nyte — Roblox Scripter</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #0b0d12;
-      --bg2: #0f1219;
-      --bg3: #151822;
-      --border: rgba(255,255,255,0.07);
-      --border-hover: rgba(255,255,255,0.14);
-      --text: #e8eaf0;
-      --muted: #6b7280;
-      --faint: #353840;
-      --cyan: #00d4ff;
-      --cyan-dim: rgba(0, 212, 255, 0.12);
-      --cyan-glow: rgba(0, 212, 255, 0.25);
-      --red: #ff4d6a;
-      --red-dim: rgba(255, 77, 106, 0.1);
-      --green: #39d98a;
-      --green-dim: rgba(57, 217, 138, 0.1);
-      --radius: 6px;
-      --max: 900px;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Syne', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: '';
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image: repeating-linear-gradient(
-        0deg, transparent, transparent 2px,
-        rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px
-      );
-    }
-
-    .grid-bg {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
-      background-size: 48px 48px;
-    }
-
-    * { position: relative; z-index: 1; }
-
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1.1rem 3rem;
-      background: rgba(11,13,18,0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-logo {
-      font-family: 'Fira Code', monospace;
-      font-size: 1rem;
-      color: var(--cyan);
-      text-decoration: none;
-      letter-spacing: 0.05em;
-    }
-    .nav-logo span { color: var(--muted); }
-    nav ul { list-style: none; display: flex; gap: 2.5rem; align-items: center; }
-    nav a {
-      text-decoration: none;
-      font-size: 0.8rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      transition: color 0.2s;
-    }
-    nav a:hover { color: var(--cyan); }
-    .nav-badge {
-      padding: 0.3rem 0.8rem;
-      background: var(--cyan-dim);
-      color: var(--cyan);
-      border: 1px solid rgba(0,212,255,0.25);
-      border-radius: 100px;
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      font-family: 'Fira Code', monospace;
-    }
-
-    .hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      justify-content: center; align-items: flex-start;
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 7rem 2rem 4rem;
-    }
-    .hero-eyebrow {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.8rem;
-      color: var(--cyan);
-      margin-bottom: 1.25rem;
-      display: flex; align-items: center; gap: 0.75rem;
-    }
-    .hero-eyebrow::before {
-      content: '';
-      display: inline-block;
-      width: 2rem; height: 1px;
-      background: var(--cyan);
-    }
-    .hero h1 {
-      font-size: clamp(3.5rem, 9vw, 6.5rem);
-      font-weight: 800;
-      line-height: 0.95;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.5rem;
-    }
-    .hero h1 .name { color: var(--text); }
-    .hero h1 .role {
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(255,255,255,0.2);
-    }
-    .hero h1 .accent { color: var(--cyan); }
-    .hero-desc {
-      font-size: 1rem;
-      color: var(--muted);
-      max-width: 480px;
-      margin-bottom: 2.5rem;
-      font-weight: 400;
-      line-height: 1.75;
-    }
-    .hero-desc code {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.85em;
-      background: var(--cyan-dim);
-      color: var(--cyan);
-      padding: 0.1em 0.4em;
-      border-radius: 3px;
-    }
-    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.75rem 1.75rem;
-      font-family: 'Syne', sans-serif;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border-radius: var(--radius);
-      transition: all 0.2s;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
-    }
-    .btn-primary { background: var(--cyan); color: var(--bg); }
-    .btn-primary:hover { background: #33ddff; box-shadow: 0 0 24px var(--cyan-glow); }
-    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border-hover); }
-    .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
-
-    .hero-stats {
-      display: flex; gap: 2.5rem;
-      margin-top: 4rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
-    }
-    .hstat-num { font-size: 1.8rem; font-weight: 800; color: var(--text); }
-    .hstat-num span { color: var(--cyan); }
-    .hstat-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.08em; margin-top: 0.1rem; }
-
-    section { max-width: var(--max); margin: 0 auto; padding: 5rem 2rem; }
-    .sec-label {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.75rem;
-      color: var(--cyan);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 0.6rem;
-      display: flex; align-items: center; gap: 0.75rem;
-    }
-    .sec-label::before { content: '//'; color: var(--faint); }
-    .sec-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -0.01em; margin-bottom: 0.75rem; }
-    .sec-sub { color: var(--muted); max-width: 520px; margin-bottom: 3rem; font-size: 0.95rem; }
-    .divider { border: none; border-top: 1px solid var(--border); max-width: var(--max); margin: 0 auto; }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .skill-cell { background: var(--bg2); padding: 1.5rem; transition: background 0.2s; }
-    .skill-cell:hover { background: var(--bg3); }
-    .skill-icon { font-size: 1.4rem; margin-bottom: 0.6rem; }
-    .skill-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem; }
-    .skill-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
-    .skill-bar { height: 2px; background: var(--faint); border-radius: 2px; margin-top: 0.75rem; overflow: hidden; }
-    .skill-bar-fill { height: 100%; background: var(--cyan); border-radius: 2px; width: 0; transition: width 1s ease; }
-
-    .projects-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-    .project-row {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      gap: 1.5rem;
-      background: var(--bg2);
-      padding: 1.5rem 1.75rem;
-      transition: background 0.2s;
-      text-decoration: none;
-      color: inherit;
-    }
-    .project-row:hover { background: var(--bg3); }
-    .project-num { font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--faint); min-width: 2rem; }
-    .project-tags { display: flex; gap: 0.5rem; margin-bottom: 0.4rem; flex-wrap: wrap; }
-    .tag {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.65rem;
-      padding: 0.2rem 0.6rem;
-      border-radius: 100px;
-      letter-spacing: 0.05em;
-    }
-    .tag-lua { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,77,106,0.2); }
-    .tag-ts { background: var(--cyan-dim); color: var(--cyan); border: 1px solid rgba(0,212,255,0.2); }
-    .tag-oop { background: rgba(255,200,50,0.1); color: #ffc832; border: 1px solid rgba(255,200,50,0.2); }
-    .tag-open { background: var(--green-dim); color: var(--green); border: 1px solid rgba(57,217,138,0.2); }
-    .tag-sys { background: rgba(160,100,255,0.1); color: #b06cff; border: 1px solid rgba(160,100,255,0.2); }
-    .project-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem; }
-    .project-desc { font-size: 0.85rem; color: var(--muted); }
-    .project-arrow { color: var(--faint); font-size: 1.1rem; transition: color 0.2s, transform 0.2s; }
-    .project-row:hover .project-arrow { color: var(--cyan); transform: translateX(4px); }
-
-    .about-layout { display: grid; grid-template-columns: 1fr 280px; gap: 3.5rem; align-items: start; }
-    .about-text p { color: var(--muted); margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.8; }
-    .code-block {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.25rem 1.5rem;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.78rem;
-      line-height: 2;
-      color: var(--muted);
-      margin-top: 1.75rem;
-    }
-    .kw { color: #ff79c6; }
-    .fn { color: var(--cyan); }
-    .str { color: var(--green); }
-    .cm { color: var(--faint); }
-    .num { color: #ffb86c; }
-    .about-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
-    .about-card-title { font-size: 0.7rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; margin-bottom: 1rem; font-family: 'Fira Code', monospace; }
-    .about-info-row { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
-    .about-info-row:last-child { border-bottom: none; }
-    .about-info-key { font-size: 0.78rem; color: var(--muted); }
-    .about-info-val { font-size: 0.78rem; font-weight: 500; }
-    .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--green); margin-right: 5px; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
-    .contact-links { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
-    .contact-link {
-      display: flex; align-items: center; gap: 1rem;
-      text-decoration: none;
-      color: var(--muted);
-      padding: 0.9rem 1.1rem;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      font-size: 0.85rem;
-      transition: all 0.2s;
-    }
-    .contact-link:hover { border-color: var(--cyan); color: var(--text); background: var(--bg3); }
-    .contact-link-icon { font-size: 1rem; width: 1.5rem; text-align: center; }
-    .contact-link-label { font-family: 'Fira Code', monospace; font-size: 0.8rem; }
-    .contact-form { display: flex; flex-direction: column; gap: 0.9rem; }
-    .form-group label { display: block; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; font-family: 'Fira Code', monospace; }
-    .form-group input, .form-group textarea {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--text);
-      font-family: 'Syne', sans-serif;
-      font-size: 0.9rem;
-      transition: border-color 0.2s;
-      outline: none;
-    }
-    .form-group input:focus, .form-group textarea:focus { border-color: var(--cyan); }
-    .form-group textarea { min-height: 110px; resize: vertical; }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.75rem;
-      color: var(--faint);
-      border-top: 1px solid var(--border);
-    }
-    footer a { color: var(--muted); text-decoration: none; }
-    footer a:hover { color: var(--cyan); }
-
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    @media (max-width: 680px) {
-      nav { padding: 1rem 1.25rem; }
-      nav ul { gap: 1rem; }
-      .nav-badge { display: none; }
-      .hero { padding-top: 5rem; }
-      .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
-      .about-layout, .contact-grid { grid-template-columns: 1fr; }
-      .project-row { grid-template-columns: auto 1fr; }
-      .project-arrow { display: none; }
-    }
-  </style>
+  <!-- Link our new modular CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
 <div class="grid-bg"></div>
 
 <nav>
-  <a href="#" class="nav-logo"><span>~/</span>nyte</a>
+  <a href="#" class="nav-logo"><span>~/</span><span class="name">nyte</span></a>
   <ul>
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
@@ -347,24 +31,23 @@
     <div class="accent">Systems.</div>
   </h1>
   <p class="hero-desc">
-    I build clean, optimized Roblox systems — from <code>game loops</code> to full
-    <code>frameworks</code>. Server-side logic, custom UIs, datastores, and everything in between.
+    <!-- Populated by JS -->
   </p>
   <div class="hero-actions">
     <a href="#projects" class="btn btn-primary">View my work</a>
-    <a href="https://github.com/YkXero" target="_blank" class="btn btn-ghost">GitHub ↗</a>
+    <a href="#" target="_blank" class="btn btn-ghost github-link">GitHub ↗</a>
   </div>
   <div class="hero-stats">
     <div>
-      <div class="hstat-num">3<span>+</span></div>
+      <div class="hstat-num years">3<span>+</span></div>
       <div class="hstat-label">Years scripting</div>
     </div>
     <div>
-      <div class="hstat-num">10<span>+</span></div>
+      <div class="hstat-num projects">10<span>+</span></div>
       <div class="hstat-label">Projects built</div>
     </div>
     <div>
-      <div class="hstat-num">∞</div>
+      <div class="hstat-num bugs">∞</div>
       <div class="hstat-label">Bugs fixed</div>
     </div>
   </div>
@@ -376,44 +59,8 @@
   <p class="sec-label">expertise</p>
   <h2 class="sec-title">What I work with</h2>
   <p class="sec-sub">Focused on Roblox's engine and the full Luau ecosystem.</p>
-  <div class="skills-grid">
-    <div class="skill-cell">
-      <div class="skill-icon">🌙</div>
-      <div class="skill-name">Luau / Lua</div>
-      <div class="skill-desc">Core scripting for all game logic, modules, and systems.</div>
-      <div class="skill-bar"><div class="skill-bar-fill" data-width="95"></div></div>
-    </div>
-    <div class="skill-cell">
-      <div class="skill-icon">🔁</div>
-      <div class="skill-name">RemoteEvents</div>
-      <div class="skill-desc">Client-server communication, replication, and anti-exploit patterns.</div>
-      <div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div>
-    </div>
-    <div class="skill-cell">
-      <div class="skill-icon">💾</div>
-      <div class="skill-name">DataStore</div>
-      <div class="skill-desc">Persistent player data with ProfileService, DataStore2, and retries.</div>
-      <div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div>
-    </div>
-    <div class="skill-cell">
-      <div class="skill-icon">🖼️</div>
-      <div class="skill-name">UI / TweenService</div>
-      <div class="skill-desc">Custom GUIs, animations, and responsive layout.</div>
-      <div class="skill-bar"><div class="skill-bar-fill" data-width="80"></div></div>
-    </div>
-    <div class="skill-cell">
-      <div class="skill-icon">🏗️</div>
-      <div class="skill-name">OOP & Modules</div>
-      <div class="skill-desc">Clean architecture using metatables, Knit, and Nevermore.</div>
-      <div class="skill-bar"><div class="skill-bar-fill" data-width="88"></div></div>
-    </div>
-    <div class="skill-cell">
-      <div class="skill-icon">⚙️</div>
-      <div class="skill-name">Physics & Raycasting</div>
-      <div class="skill-desc">Custom movement, hit detection, and viewport manipulation.</div>
-      <div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div>
-    </div>
-  </div>
+  <!-- Skills container injected by JS -->
+  <div id="skills-container" class="skills-grid"></div>
 </section>
 
 <hr class="divider" />
@@ -422,46 +69,12 @@
   <p class="sec-label">work</p>
   <h2 class="sec-title">Projects</h2>
   <p class="sec-sub">Scripts, systems, and tools I've built. Update these with your real work!</p>
-  <div class="projects-list">
-    <a href="https://github.com/YkXero" target="_blank" class="project-row">
-      <span class="project-num">01</span>
-      <div>
-        <div class="project-tags"><span class="tag tag-lua">Luau</span><span class="tag tag-sys">Combat</span></div>
-        <div class="project-title">Melee Combat Framework</div>
-        <div class="project-desc">Hitbox detection, combo chains, and lag-compensated registration. Fully server-authoritative.</div>
-      </div>
-      <span class="project-arrow">→</span>
-    </a>
-    <a href="https://github.com/YkXero" target="_blank" class="project-row">
-      <span class="project-num">02</span>
-      <div>
-        <div class="project-tags"><span class="tag tag-lua">Luau</span><span class="tag tag-oop">OOP</span><span class="tag tag-open">Open Source</span></div>
-        <div class="project-title">Inventory & Equipment System</div>
-        <div class="project-desc">Module-based inventory with drag-and-drop UI, DataStore persistence, and equip logic.</div>
-      </div>
-      <span class="project-arrow">→</span>
-    </a>
-    <a href="https://github.com/YkXero" target="_blank" class="project-row">
-      <span class="project-num">03</span>
-      <div>
-        <div class="project-tags"><span class="tag tag-lua">Luau</span><span class="tag tag-sys">Admin</span></div>
-        <div class="project-title">Admin Command Handler</div>
-        <div class="project-desc">Lightweight, extensible admin system with permission levels and prefix parsing.</div>
-      </div>
-      <span class="project-arrow">→</span>
-    </a>
-    <a href="https://github.com/YkXero" target="_blank" class="project-row">
-      <span class="project-num">04</span>
-      <div>
-        <div class="project-tags"><span class="tag tag-lua">Luau</span><span class="tag tag-oop">OOP</span></div>
-        <div class="project-title">NPC Dialogue & Quest Engine</div>
-        <div class="project-desc">Branching dialogue trees, quest tracking, and reward dispatch with a clean API.</div>
-      </div>
-      <span class="project-arrow">→</span>
-    </a>
-  </div>
+  
+  <!-- Projects container injected by JS -->
+  <div id="projects-container" class="projects-list"></div>
+  
   <p style="margin-top:1.5rem; font-family:'Fira Code',monospace; font-size:0.8rem; color:var(--muted);">
-    -- More on <a href="https://github.com/YkXero" target="_blank" style="color:var(--cyan); text-decoration:none;">github.com/YkXero</a>
+    -- More on <a href="#" target="_blank" class="github-link" style="color:var(--cyan); text-decoration:none;">github.com/<span class="github-handle">YkXero</span></a>
   </p>
 </section>
 
@@ -469,45 +82,35 @@
 
 <section id="about" class="reveal">
   <p class="sec-label">about</p>
-  <h2 class="sec-title">Who is Nyte?</h2>
+  <h2 class="sec-title about-title">Who is Nyte?</h2>
   <div class="about-layout">
-    <div class="about-text">
-      <p>Hey! I'm Nyte — a Roblox scripter who cares about writing code that's actually maintainable. No spaghetti scripts, no LocalScript-everything hacks. Just clean, modular Luau built to last.</p>
-      <p>I got into scripting because I wanted to build the games I couldn't find. A few years later I'm still doing exactly that — and helping others do the same.</p>
-      <p>I'm comfortable taking a project from idea to shipped: system design, implementation, testing, and optimization. If you need a scripter who can own a feature end-to-end, let's talk.</p>
+    <div class="about-text" id="about-text-container">
+      <!-- Paragraphs injected by JS -->
       <div class="code-block">
-<span class="cm">-- nyte.lua</span>
-<br><span class="kw">local</span> <span class="fn">Nyte</span> = {}
-<br>
-<br><span class="fn">Nyte</span>.languages  = { <span class="str">"Luau"</span>, <span class="str">"Lua 5.1"</span> }
-<br><span class="fn">Nyte</span>.frameworks = { <span class="str">"Knit"</span>, <span class="str">"Nevermore"</span> }
-<br><span class="fn">Nyte</span>.github     = <span class="str">"YkXero"</span>
-<br><span class="fn">Nyte</span>.available  = <span class="kw">true</span>
-<br>
-<br><span class="kw">return</span> <span class="fn">Nyte</span>
+        <!-- Code block injected by JS -->
       </div>
     </div>
     <div class="about-card">
       <div class="about-card-title">// quick info</div>
       <div class="about-info-row">
         <span class="about-info-key">Handle</span>
-        <span class="about-info-val">Nyte</span>
+        <span class="about-info-val info-val-handle">Nyte</span>
       </div>
       <div class="about-info-row">
         <span class="about-info-key">GitHub</span>
-        <span class="about-info-val"><a href="https://github.com/YkXero" target="_blank" style="color:var(--cyan);text-decoration:none;">YkXero</a></span>
+        <span class="about-info-val"><a href="#" target="_blank" class="github-link" style="color:var(--cyan);text-decoration:none;">YkXero</a></span>
       </div>
       <div class="about-info-row">
         <span class="about-info-key">Stack</span>
-        <span class="about-info-val">Luau · Roblox</span>
+        <span class="about-info-val info-val-stack">Luau · Roblox</span>
       </div>
       <div class="about-info-row">
         <span class="about-info-key">Specialty</span>
-        <span class="about-info-val">Systems &amp; OOP</span>
+        <span class="about-info-val info-val-specialty">Systems &amp; OOP</span>
       </div>
       <div class="about-info-row">
         <span class="about-info-key">Status</span>
-        <span class="about-info-val"><span class="status-dot"></span>Available</span>
+        <span class="about-info-val info-val-status"><span class="status-dot"></span>Available</span>
       </div>
     </div>
   </div>
@@ -523,13 +126,13 @@
     <div>
       <p style="color:var(--muted);font-size:0.9rem;margin-bottom:0.5rem;">Open to commissions, freelance work, and long-term collaborations on Roblox projects.</p>
       <div class="contact-links">
-        <a href="https://github.com/YkXero" target="_blank" class="contact-link">
+        <a href="#" target="_blank" class="contact-link github-link">
           <span class="contact-link-icon">⌥</span>
-          <span class="contact-link-label">github.com/YkXero</span>
+          <span class="contact-link-label">github.com/<span class="github-handle">YkXero</span></span>
         </a>
-        <a href="https://www.roblox.com/" target="_blank" class="contact-link">
+        <a href="#" target="_blank" class="contact-link roblox-link">
           <span class="contact-link-icon">🎮</span>
-          <span class="contact-link-label">Roblox — Nyte</span>
+          <span class="contact-link-label">Roblox — <span class="name">Nyte</span></span>
         </a>
         <a href="#contact" class="contact-link">
           <span class="contact-link-icon">✉</span>
@@ -537,7 +140,7 @@
         </a>
       </div>
     </div>
-    <form class="contact-form" onsubmit="handleSubmit(event)">
+    <form class="contact-form" onsubmit="window.handleSubmit(event)">
       <div class="form-group">
         <label>Your name</label>
         <input type="text" placeholder="Developer" required />
@@ -556,34 +159,11 @@
 </section>
 
 <footer>
-  <p>nyte · <a href="https://github.com/YkXero" target="_blank">github.com/YkXero</a> · built with html &amp; luau dreams</p>
+  <p><span class="name">nyte</span> · <a href="#" target="_blank" class="github-link">github.com/<span class="github-handle">YkXero</span></a> · built with html &amp; luau dreams</p>
 </footer>
 
-<script>
-  function handleSubmit(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('button');
-    btn.textContent = 'Sent ✓';
-    btn.style.background = 'var(--green)';
-    setTimeout(() => { btn.textContent = 'Send message'; btn.style.background = ''; e.target.reset(); }, 3000);
-  }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(s => observer.observe(s));
-
-  const barObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
-          bar.style.width = bar.dataset.width + '%';
-        });
-        barObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.2 });
-  document.querySelectorAll('.skills-grid').forEach(g => barObserver.observe(g));
-</script>
+<!-- Load our config and main logic -->
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
 </body>
 </html>
