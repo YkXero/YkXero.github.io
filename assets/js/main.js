@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- 1. Top Navigation & Hero ---
   document.querySelectorAll('.nav-logo span.name').forEach(el => el.textContent = config.personal.name.toLowerCase());
-  
+
   const badgeEl = document.querySelector('.nav-badge');
   if (badgeEl) {
     if (config.personal.isOpenToWork) {
@@ -18,10 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+
+
   document.querySelectorAll('.hero h1 .name').forEach(el => el.textContent = config.personal.name);
   document.querySelectorAll('.hero h1 .role').forEach(el => el.innerHTML = config.personal.roleAccent + '&nbsp;');
   document.querySelectorAll('.hero h1 .accent').forEach(el => el.textContent = config.personal.roleHighlight);
-  
+
   document.querySelectorAll('.hero-desc').forEach(el => el.innerHTML = config.personal.description);
 
   // Stats
@@ -29,11 +31,72 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.hstat-num.projects').forEach(el => el.innerHTML = config.personal.projectsBuilt.replace('+', '<span>+</span>'));
   document.querySelectorAll('.hstat-num.bugs').forEach(el => el.textContent = config.personal.bugsFixed);
 
-  // Global links replacement
-  document.querySelectorAll('a.github-link').forEach(a => a.href = config.personal.githubLink);
+  // Global Discord handle replacement
+  document.querySelectorAll('span.discord-handle').forEach(span => span.textContent = config.personal.discordUsername);
+  document.querySelectorAll('.discord-name.discord-handle').forEach(span => span.textContent = config.personal.discordUsername);
   document.querySelectorAll('a.roblox-link').forEach(a => a.href = config.personal.robloxLink);
-  document.querySelectorAll('span.github-handle').forEach(span => span.textContent = config.personal.githubUsername);
-  
+  document.querySelectorAll('.roblox-handle').forEach(el => el.textContent = config.personal.robloxName);
+  document.querySelectorAll('a.x-link').forEach(a => a.href = config.personal.xLink);
+  document.querySelectorAll('.x-handle').forEach(el => el.textContent = config.personal.xUsername);
+
+  // --- Theme Toggle ---
+  const themeToggle = document.getElementById('theme-toggle');
+  const savedTheme = localStorage.getItem('portfolio-theme');
+  if (savedTheme === 'light') document.body.classList.add('light-theme');
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light-theme');
+      const isLight = document.body.classList.contains('light-theme');
+      localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
+    });
+  }
+
+  // --- Toast Notification Helper ---
+  const toastEl = document.getElementById('toast');
+  function showToast(message) {
+    if (!toastEl) return;
+    toastEl.innerHTML = `<span>✓</span> ${message}`;
+    toastEl.classList.add('show');
+    // Clear previous timeout if exists
+    if (toastEl.timeoutId) clearTimeout(toastEl.timeoutId);
+    toastEl.timeoutId = setTimeout(() => {
+      toastEl.classList.remove('show');
+    }, 3000);
+  }
+
+  // --- Discord Avatar via Lanyard API ---
+  const discordAvatar = document.getElementById('discord-avatar');
+  const discordMsgBtn = document.getElementById('discord-message-btn');
+  const userId = config.personal.discordUserId;
+
+  if (userId) {
+    if (discordMsgBtn) {
+      // User requested copy to clipboard instead of opening Discord DMs
+      discordMsgBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigator.clipboard.writeText(config.personal.discordUsername).then(() => {
+          showToast('Copied to clipboard!');
+        });
+      });
+    }
+
+    // Fetch from Lanyard REST API (Requires you to be in the Lanyard Discord server)
+    fetch(`https://api.lanyard.rest/v1/users/${userId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.data && data.data.discord_user) {
+          const user = data.data.discord_user;
+          // Set avatar
+          if (discordAvatar && user.avatar) {
+            const ext = user.avatar.startsWith('a_') ? 'gif' : 'png';
+            discordAvatar.src = `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.${ext}?size=128`;
+          }
+        }
+      })
+      .catch(err => console.warn('[Portfolio] Lanyard API fetch failed.', err));
+  }
+
   // --- 2. Skills Section ---
   const skillsContainer = document.getElementById('skills-container');
   if (skillsContainer && config.skills) {
@@ -55,49 +118,112 @@ document.addEventListener('DOMContentLoaded', () => {
   if (projectsContainer && config.projects) {
     config.projects.forEach((proj, index) => {
       const numStr = String(index + 1).padStart(2, '0');
-      
+
       let tagsHTML = '';
-      if(proj.tags) {
-         tagsHTML = proj.tags.map(tag => `<span class="tag ${tag.class}">${tag.name}</span>`).join('');
+      if (proj.tags) {
+        tagsHTML = proj.tags.map(tag => `<span class="tag ${tag.class}">${tag.name}</span>`).join('');
+      }
+
+      // Status tag (WIP / Finished)
+      let statusHTML = '';
+      if (proj.status === 'wip') {
+        statusHTML = '<span class="tag tag-wip" style="display:inline-flex; align-items:center; gap:4px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#fbbf24;"></span>Working on</span>';
+      } else if (proj.status === 'finished') {
+        statusHTML = '<span class="tag tag-finished">✓ Finished</span>';
       }
 
       const row = document.createElement('a');
-      row.href = proj.link;
-      row.target = '_blank';
+      row.href = proj.link && proj.link !== '#' ? proj.link : '#';
+      if (proj.link && proj.link !== '#') row.target = '_blank';
       row.className = 'project-row';
       row.innerHTML = `
         <span class="project-num">${numStr}</span>
         <div>
-          <div class="project-tags">${tagsHTML}</div>
+          <div class="project-tags">${tagsHTML}${statusHTML}</div>
           <div class="project-title">${proj.title}</div>
           <div class="project-desc">${proj.description}</div>
         </div>
         <span class="project-arrow">→</span>
       `;
+
+      // Modal logic
+      if (proj.details || (proj.links && proj.links.length > 0)) {
+        row.addEventListener('click', (e) => {
+          e.preventDefault();
+          openProjectModal(proj);
+        });
+      }
+
       projectsContainer.appendChild(row);
+    });
+  }
+
+  // --- Project Modal Functions ---
+  const modalBackdrop = document.getElementById('project-modal');
+  const modalClose = document.getElementById('modal-close');
+
+  function openProjectModal(proj) {
+    if (!modalBackdrop) return;
+
+    // Populate Data
+    document.getElementById('modal-title').textContent = proj.title;
+    document.getElementById('modal-desc').textContent = proj.description;
+
+    const detailsEl = document.getElementById('modal-details');
+    detailsEl.innerHTML = proj.details ? proj.details.replace(/\n/g, '<br><br>') : '';
+
+    // Tags
+    const tagsEl = document.getElementById('modal-tags');
+    if (proj.tags) {
+      tagsEl.innerHTML = proj.tags.map(tag => `<span class="tag ${tag.class}">${tag.name}</span>`).join('');
+    } else {
+      tagsEl.innerHTML = '';
+    }
+
+    // Links
+    const footerEl = document.getElementById('modal-footer');
+    footerEl.innerHTML = '';
+    if (proj.links) {
+      proj.links.forEach(link => {
+        const a = document.createElement('a');
+        a.href = link.url;
+        a.target = '_blank';
+        a.className = 'modal-link-btn ripple-btn';
+        a.innerHTML = `${link.icon || ''} ${link.text}`;
+        footerEl.appendChild(a);
+      });
+    }
+
+    // Show Modal
+    modalBackdrop.classList.add('open');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  }
+
+  function closeProjectModal() {
+    if (!modalBackdrop) return;
+    modalBackdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  if (modalClose) modalClose.addEventListener('click', closeProjectModal);
+  if (modalBackdrop) {
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) closeProjectModal();
     });
   }
 
   // --- 4. About Section ---
   document.querySelectorAll('h2.about-title').forEach(el => el.textContent = `Who is ${config.personal.name}?`);
-  
+
   const aboutTextContainer = document.getElementById('about-text-container');
   if (aboutTextContainer && config.aboutParagraphs) {
-    // Clear existing paragraphs inside container (except code block)
     const existingParagraphs = aboutTextContainer.querySelectorAll('p');
     existingParagraphs.forEach(p => p.remove());
-
-    const codeBlock = aboutTextContainer.querySelector('.code-block');
-    if (codeBlock) { codeBlock.innerHTML = config.aboutCodeBlock; }
 
     config.aboutParagraphs.forEach(para => {
       const p = document.createElement('p');
       p.textContent = para;
-      if (codeBlock) {
-          aboutTextContainer.insertBefore(p, codeBlock);
-      } else {
-          aboutTextContainer.appendChild(p);
-      }
+      aboutTextContainer.appendChild(p);
     });
   }
 
@@ -105,31 +231,88 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.info-val-handle').forEach(el => el.textContent = config.personal.name);
   document.querySelectorAll('.info-val-stack').forEach(el => el.textContent = config.personal.stack);
   document.querySelectorAll('.info-val-specialty').forEach(el => el.textContent = config.personal.specialty);
-  
+
+  // Status dot: green if available, red if not
   const statusVal = document.querySelector('.info-val-status');
   if (statusVal) {
-      statusVal.innerHTML = `<span class="status-dot"></span>${config.personal.statusText}`;
-      if (!config.personal.isOpenToWork) {
-          const dot = statusVal.querySelector('.status-dot');
-          if (dot) {
-              dot.style.background = 'var(--muted)';
-              dot.style.animation = 'none';
-          }
-      }
+    const dotColor = config.personal.isOpenToWork ? '#22c55e' : '#ef4444';
+    statusVal.innerHTML = `<span class="status-dot" style="background:${dotColor}"></span>${config.personal.statusText}`;
   }
 
+  // --- 5. Feedback Section ---
+  const feedbackContainer = document.getElementById('feedback-container');
+  const feedbackEmpty = document.getElementById('feedback-empty');
+  if (feedbackContainer && config.feedback) {
+    if (config.feedback.length === 0) {
+      // Show placeholder
+      if (feedbackEmpty) feedbackEmpty.style.display = 'block';
+    } else {
+      if (feedbackEmpty) feedbackEmpty.style.display = 'none';
+      config.feedback.forEach(fb => {
+        const card = document.createElement('div');
+        card.className = 'feedback-card';
 
-  // --- 5. Observers & Interactions ---
-  // Reveal animation
+        // Star rating (SVG)
+        const starFilled = '<svg viewBox="0 0 24 24" fill="#fde047" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+        const starHalf = '<svg viewBox="0 0 24 24"><defs><linearGradient id="halfGrad" x1="0" x2="1" y1="0" y2="0"><stop offset="50%" stop-color="#fde047"/><stop offset="50%" stop-color="transparent"/></linearGradient></defs><path fill="url(#halfGrad)" stroke="none" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/><path fill="none" stroke="#3f3f46" stroke-width="2" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+        const starEmpty = '<svg viewBox="0 0 24 24" fill="none" stroke="#3f3f46" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+        let stars = '';
+        for (let i = 1; i <= 5; i++) {
+          if (fb.rating >= i) {
+            stars += starFilled;
+          } else if (fb.rating >= i - 0.5) {
+            stars += starHalf;
+          } else {
+            stars += starEmpty;
+          }
+        }
+
+        // Placeholder logic for avatar
+        const hasValidAvatar = fb.avatarUrl && fb.avatarUrl.startsWith('http');
+        let initialAvatarHTML = hasValidAvatar
+          ? `<img src="${fb.avatarUrl}" alt="${fb.name}" style="width:36px; height:36px; border-radius:50%; object-fit:cover; margin-right:12px;">`
+          : `<div style="width:36px; height:36px; border-radius:50%; background:var(--border); margin-right:12px; display:flex; align-items:center; justify-content:center; font-size:12px; color:var(--text); font-weight:600;">${fb.name.charAt(0)}</div>`;
+
+        card.innerHTML = `
+          <div class="feedback-stars">${stars}</div>
+          <p class="feedback-text">"${fb.text}"</p>
+          <div class="feedback-author" style="display:flex; align-items:center;">
+            <div class="feedback-avatar-container">${initialAvatarHTML}</div>
+            <div>
+              <div class="feedback-name">${fb.name}</div>
+              <div class="feedback-role">${fb.role || ''}</div>
+            </div>
+          </div>
+        `;
+        feedbackContainer.appendChild(card);
+
+        // Auto-fetch Discord avatar via japi.rest (free, no auth required)
+        if (fb.discordUserId && !hasValidAvatar) {
+          fetch(`https://japi.rest/discord/v1/user/${fb.discordUserId}`)
+            .then(res => res.json())
+            .then(json => {
+              if (json.data && json.data.avatarURL) {
+                const avatarContainer = card.querySelector('.feedback-avatar-container');
+                if (avatarContainer) {
+                  avatarContainer.innerHTML = `<img src="${json.data.avatarURL}?size=128" alt="${fb.name}" style="width:36px; height:36px; border-radius:50%; object-fit:cover; margin-right:12px;">`;
+                }
+              }
+            })
+            .catch(() => {}); // Silently fall back to initials
+        }
+      });
+    }
+  }
+
+  // --- 6. Observers & Interactions ---
   const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(el => { 
-        if (el.isIntersecting) el.target.classList.add('visible'); 
+    entries.forEach(el => {
+      if (el.isIntersecting) el.target.classList.add('visible');
     });
   }, { threshold: 0.08 });
-  
+
   document.querySelectorAll('.reveal').forEach(s => revealObserver.observe(s));
 
-  // Skill bar animation
   const barObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -140,24 +323,108 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }, { threshold: 0.2 });
-  
+
   document.querySelectorAll('.skills-grid').forEach(g => barObserver.observe(g));
+
+  // Button Ripple Effect
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('mousedown', function (e) {
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const circle = document.createElement('span');
+      circle.classList.add('ripple');
+      circle.style.left = `${x}px`;
+      circle.style.top = `${y}px`;
+
+      this.appendChild(circle);
+      setTimeout(() => circle.remove(), 600);
+    });
+  });
+
+  // Horizontal wheel scrolling for feedback section
+  const feedbackGrid = document.querySelector('.feedback-grid');
+  if (feedbackGrid) {
+    feedbackGrid.addEventListener('wheel', (e) => {
+      if (feedbackGrid.scrollWidth > feedbackGrid.clientWidth) {
+        e.preventDefault();
+        feedbackGrid.scrollLeft += e.deltaY * 2.5;
+      }
+    }, { passive: false });
+
+    // Auto-scroll feedback carousel
+    let autoScrollInterval = null;
+    let userInteracted = false;
+
+    function startAutoScroll() {
+      if (autoScrollInterval) return;
+      autoScrollInterval = setInterval(() => {
+        if (userInteracted) return;
+        if (feedbackGrid.scrollLeft + feedbackGrid.clientWidth >= feedbackGrid.scrollWidth - 10) {
+          feedbackGrid.scrollLeft = 0; // Loop back to start
+        } else {
+          feedbackGrid.scrollLeft += 1; // Smooth pixel-by-pixel scroll
+        }
+      }, 30);
+    }
+
+    function pauseAutoScroll() {
+      userInteracted = true;
+      clearTimeout(feedbackGrid._resumeTimeout);
+      feedbackGrid._resumeTimeout = setTimeout(() => {
+        userInteracted = false;
+      }, 5000); // Resume after 5s of no interaction
+    }
+
+    feedbackGrid.addEventListener('mouseenter', pauseAutoScroll);
+    feedbackGrid.addEventListener('mouseleave', () => {
+      feedbackGrid._resumeTimeout = setTimeout(() => {
+        userInteracted = false;
+      }, 2000);
+    });
+    feedbackGrid.addEventListener('touchstart', pauseAutoScroll);
+
+    // Start auto-scroll when feedback section is visible
+    const feedbackObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          startAutoScroll();
+        } else {
+          clearInterval(autoScrollInterval);
+          autoScrollInterval = null;
+        }
+      });
+    }, { threshold: 0.1 });
+    feedbackObserver.observe(feedbackGrid);
+  }
+
+  // Discord social card copy-to-clipboard
+  const discordSocialBtn = document.getElementById('discord-message-btn-social');
+  if (discordSocialBtn) {
+    discordSocialBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      navigator.clipboard.writeText(config.personal.discordUsername).then(() => {
+        showToast('Copied to clipboard!');
+      });
+    });
+  }
 });
 
 // Exposed globally for the inline form onsubmit
-window.handleSubmit = function(e) {
+window.handleSubmit = function (e) {
   e.preventDefault();
   const btn = e.target.querySelector('button');
   const originalText = btn.textContent;
-  
+
   btn.textContent = 'Sent ✓';
   btn.style.background = 'var(--green)';
   btn.style.color = 'var(--bg)';
-  
-  setTimeout(() => { 
-    btn.textContent = originalText; 
-    btn.style.background = ''; 
+
+  setTimeout(() => {
+    btn.textContent = originalText;
+    btn.style.background = '';
     btn.style.color = '';
-    e.target.reset(); 
+    e.target.reset();
   }, 3000);
 };
