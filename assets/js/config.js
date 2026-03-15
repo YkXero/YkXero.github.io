@@ -2,11 +2,11 @@ window.portfolioConfig = {
   // Personal Information
   personal: {
     name: "Nyte",
-    roleAccent: "Lua &",
-    roleHighlight: "Systems.",
+    roleAccent: "Roblox Lua Developer",
+    roleHighlight: "",
     description: "I build clean, optimized Roblox <code>systems</code>, from <code>frameworks</code> to <code>complex systems</code>, <code>UI scripting</code>, <code>datastores</code>, and more.",
     yearsScripting: "3+",
-    projectsBuilt: "10+",
+    gamesDeveloped: "2+",
     bugsFixed: "∞",
     discordUsername: "_nyte._",
     discordUserId: "1403162458134155356",
@@ -16,7 +16,7 @@ window.portfolioConfig = {
     xLink: "https://x.com/_nyyte_",
     isOpenToWork: true,
     statusText: "Available",
-    specialty: "Systems & OOP",
+    specialty: "Systems",
     stack: "Luau · Roblox"
   },
 
@@ -32,26 +32,26 @@ window.portfolioConfig = {
     {
       icon: "🌙",
       name: "Luau",
-      description: "Advanced OOP with metatables, type annotations, and strict type-safe patterns.",
+      description: "Advanced Game Systems with Metatables and Type-Safe Patterns",
       mastery: 95
     },
     {
       icon: "🚀",
       name: "Performance",
-      description: "Client-only visuals, server-authoritative logic, deferred streaming, and profiler-driven optimization.",
+      description: "Ensuring Smooth Gameplay with Optimized Client Visuals, Server Logic, and Performance-Driven Streaming",
       mastery: 99
     },
     {
       icon: "🧩",
       name: "Scalable Architecture",
-      description: "Modular, reusable systems designed for multi-project use — plug-and-play controllers, services, and configs.",
-      mastery: 90
+      description: "Modular, reusable systems designed for multi-project use, with flexible controllers, services, and configurations.",
+      mastery: 95
     },
     {
       icon: "🔧",
       name: "Rojo & Wally",
       description: "Professional external workflow with Rojo for syncing, Wally for package management, and Rokit for toolchains.",
-      mastery: 90
+      mastery: 93
     },
     {
       icon: "⚛️",
@@ -62,20 +62,20 @@ window.portfolioConfig = {
     {
       icon: "🔁",
       name: "Networking",
-      description: "Custom networking framework (Networker) for secure client-server communication, published on Wally.",
-      mastery: 92
+      description: "Advanced use of Networker wrapper for secure client-server communication, server validation, and reliable remote calls",
+      mastery: 95
     },
     {
       icon: "💾",
-      name: "Data Persistence",
-      description: "Player data with ProfileStore, session locking, and reliable save/load patterns.",
-      mastery: 85
+      name: "Player Data Systems",
+      description: "Player data handled with ProfileStore, session locking, reliable save/load patterns, and custom utility functions",
+      mastery: 94
     },
     {
       icon: "⚙️",
       name: "Physics & Combat",
-      description: "Shapecast hitboxes, raycasting, custom movement controllers, and server-authoritative combat.",
-      mastery: 80
+      description: "High-performance combat and physics: hitboxes, raycasting, server authoritative logic, and custom systems",
+      mastery: 95
     }
   ],
 
@@ -126,6 +126,11 @@ window.portfolioConfig = {
     }
   ],
 
+  // UI Settings
+  ui: {
+    feedbackScrollSpeed: 1.2
+  },
+
   // Feedback
   feedback: [
     // Example:
@@ -149,35 +154,35 @@ window.portfolioConfig = {
       role: "Game Owner",
       discordUserId: "1176142736169115668",
       text: "Test test test test test test test test test test test test test test test test test test test ",
-      rating: 5
+      rating: 4.5
     },
     {
       name: "Test",
       role: "Game Owner",
       discordUserId: "741374651288256583",
       text: "Test test test test test test test test test test test test test test test test test test test ",
-      rating: 5
+      rating: 4
     },
     {
       name: "Test",
       role: "Game Owner",
       discordUserId: "994345953559580753",
       text: "Test test test test test test test test test test test test test test test test test test test ",
-      rating: 5
+      rating: 3.5
     },
     {
       name: "Test",
       role: "Game Owner",
       discordUserId: "937769033435074581",
       text: "Test test test test test test test test test test test test test test test test test test test ",
-      rating: 5
+      rating: 3
     },
     {
       name: "Test",
       role: "Game Owner",
       discordUserId: "1012172995189559386",
       text: "Test test test test test test test test test test test test test test test test test test test ",
-      rating: 5
+      rating: 0.5
     }
 
   ],

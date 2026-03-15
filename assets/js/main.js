@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Stats
   document.querySelectorAll('.hstat-num.years').forEach(el => el.innerHTML = config.personal.yearsScripting.replace('+', '<span>+</span>'));
-  document.querySelectorAll('.hstat-num.projects').forEach(el => el.innerHTML = config.personal.projectsBuilt.replace('+', '<span>+</span>'));
+  document.querySelectorAll('.hstat-num.projects').forEach(el => el.innerHTML = config.personal.gamesDeveloped.replace('+', '<span>+</span>'));
   document.querySelectorAll('.hstat-num.bugs').forEach(el => el.textContent = config.personal.bugsFixed);
 
   // Global Discord handle replacement
@@ -355,35 +355,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Auto-scroll feedback carousel
     let autoScrollInterval = null;
-    let userInteracted = false;
+    let isPaused = false;
+    let scrollSpeed = (config.ui && config.ui.feedbackScrollSpeed) ? config.ui.feedbackScrollSpeed : 1.5;
+
+    // Clone nodes for infinite scroll effect (run once after fetching)
+    setTimeout(() => {
+      const cards = Array.from(feedbackGrid.children);
+      // Only clone if not already cloned
+      if (cards.length > 0 && cards[0].classList.contains('feedback-card') && feedbackGrid.children.length === cards.length) {
+        cards.forEach(card => {
+          const clone = card.cloneNode(true);
+          // ensure cloned elements also load their avatars correctly if they have lazy load
+          feedbackGrid.appendChild(clone);
+        });
+      }
+    }, 1000); // Give it a second to render the API avatars before cloning
 
     function startAutoScroll() {
       if (autoScrollInterval) return;
       autoScrollInterval = setInterval(() => {
-        if (userInteracted) return;
-        if (feedbackGrid.scrollLeft + feedbackGrid.clientWidth >= feedbackGrid.scrollWidth - 10) {
-          feedbackGrid.scrollLeft = 0; // Loop back to start
+        if (isPaused) return;
+
+        // The grid contains 2 sets of identical cards.
+        // We want to reset when we reach the end of the FIRST set.
+        // ScrollWidth is the total width (2 sets). ScrollWidth / 2 is the exact boundary.
+        if (feedbackGrid.scrollLeft >= feedbackGrid.scrollWidth / 2) {
+           feedbackGrid.scrollLeft = 0;
+           // If we just reset, we don't add scrollSpeed immediately to avoid a double-jump
         } else {
-          feedbackGrid.scrollLeft += 1; // Smooth pixel-by-pixel scroll
+           feedbackGrid.scrollLeft += scrollSpeed;
         }
-      }, 30);
+      }, 20);
     }
 
-    function pauseAutoScroll() {
-      userInteracted = true;
-      clearTimeout(feedbackGrid._resumeTimeout);
-      feedbackGrid._resumeTimeout = setTimeout(() => {
-        userInteracted = false;
-      }, 5000); // Resume after 5s of no interaction
-    }
-
-    feedbackGrid.addEventListener('mouseenter', pauseAutoScroll);
-    feedbackGrid.addEventListener('mouseleave', () => {
-      feedbackGrid._resumeTimeout = setTimeout(() => {
-        userInteracted = false;
-      }, 2000);
+    // Smoother stopping/starting based on pointer
+    feedbackGrid.addEventListener('mouseenter', () => isPaused = true);
+    feedbackGrid.addEventListener('mouseleave', () => isPaused = false);
+    feedbackGrid.addEventListener('touchstart', () => isPaused = true, { passive: true });
+    feedbackGrid.addEventListener('touchend', () => {
+      setTimeout(() => isPaused = false, 2000);
     });
-    feedbackGrid.addEventListener('touchstart', pauseAutoScroll);
 
     // Start auto-scroll when feedback section is visible
     const feedbackObserver = new IntersectionObserver((entries) => {

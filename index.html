@@ -9,13 +9,13 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/style.css?v=2" />
   <link rel="icon" href="assets/img/icon.png" type="image/png" />
 </head>
 
 <body>
 
-  <nav>
+  <nav class="fade-in-down">
     <a href="#" class="nav-logo"><span>~/</span><span class="name">nyte</span></a>
     <ul>
       <li><a href="#about">About</a></li>
@@ -40,19 +40,19 @@
   </nav>
 
   <div class="hero">
-    <p class="hero-eyebrow">Roblox Scripter & Developer</p>
-    <h1>
+    <p class="hero-eyebrow fade-in-up delay-1">Roblox Scripter & Developer</p>
+    <h1 class="fade-in-up delay-2">
       <div class="name">Nyte</div>
       <div class="role">Lua &amp;</div>
       <div class="accent">Systems.</div>
     </h1>
-    <p class="hero-desc"></p>
+    <p class="hero-desc fade-in-up delay-3"></p>
 
-    <div class="hero-actions">
+    <div class="hero-actions fade-in-up delay-4">
       <a href="#projects" class="btn btn-primary">View my work</a>
       <a href="#contact" class="btn btn-discord">💬 Discord: <span class="discord-handle">_nyte._</span></a>
     </div>
-    <div class="hero-stats">
+    <div class="hero-stats fade-in-up delay-5">
       <div>
         <div class="hstat-num years">3<span>+</span></div>
         <div class="hstat-label">Years scripting</div>
@@ -79,7 +79,7 @@
       <div class="about-card">
         <div class="about-card-title">// quick info</div>
         <div class="about-info-row">
-          <span class="about-info-key">Handle</span>
+          <span class="about-info-key">Name</span>
           <span class="about-info-val info-val-handle">Nyte</span>
         </div>
         <div class="about-info-row">
@@ -88,7 +88,7 @@
         </div>
         <div class="about-info-row">
           <span class="about-info-key">Stack</span>
-          <span class="about-info-val info-val-stack">Luau · Roblox</span>
+          <span class="about-info-val info-val-stack">Luau</span>
         </div>
         <div class="about-info-row">
           <span class="about-info-key">Specialty</span>
@@ -107,7 +107,7 @@
   <section id="skills" class="reveal">
     <p class="sec-label">expertise</p>
     <h2 class="sec-title">What I work with</h2>
-    <p class="sec-sub">Focused on Roblox's engine and the full Luau ecosystem.</p>
+    <p class="sec-sub">Focused on Roblox engine and the full Luau ecosystem.</p>
     <div id="skills-container" class="skills-grid"></div>
   </section>
 
@@ -185,7 +185,8 @@
   </section>
 
   <footer>
-    <p><span class="name">nyte</span> · Discord: <span class="discord-handle">_nyte._</span> · built with html &amp;
+    <p><span class="name">nyte</span> · Discord: <span class="discord-handle">_nyte._</span> · built with html, css, js
+      &amp;
       luau dreams</p>
   </footer>
 
@@ -207,8 +208,8 @@
 
   <div id="toast" class="toast"></div>
 
-  <script src="assets/js/config.js"></script>
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/config.js?v=5"></script>
+  <script src="assets/js/main.js?v=5"></script>
   <div class="wave-front"></div>
   <div class="bg-glow"></div>
 </body>

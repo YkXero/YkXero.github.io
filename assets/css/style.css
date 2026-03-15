@@ -275,11 +275,12 @@ nav a {
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--muted);
-  transition: color 0.2s;
+  transition: color 0.2s, text-shadow 0.2s;
 }
 
 nav a:hover {
   color: var(--accent);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
 }
 
 .nav-badge {
@@ -384,6 +385,8 @@ nav a:hover {
 .btn-primary:hover {
   background: transparent;
   color: var(--text);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
 .btn-ghost {
@@ -409,6 +412,8 @@ nav a:hover {
 .btn-discord:hover {
   border-color: var(--text);
   background: var(--bg3);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
 }
 
 .hero-stats {
@@ -495,6 +500,7 @@ section {
   background: var(--bg2);
   border-color: var(--border-hover);
   transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .skill-icon {
@@ -555,6 +561,8 @@ section {
 .project-row:hover {
   background: var(--bg2);
   border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
 }
 
 .project-num {
@@ -607,12 +615,29 @@ section {
   background: rgba(251, 191, 36, 0.15);
   color: #fbbf24;
   border: 1px solid rgba(251, 191, 36, 0.25);
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.2);
+  animation: pureGlow 3s infinite alternate;
 }
 
 .tag-finished {
   background: rgba(34, 197, 94, 0.1);
   color: #22c55e;
   border: 1px solid rgba(34, 197, 94, 0.2);
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.15);
+  transition: box-shadow 0.3s ease;
+}
+
+.tag-finished:hover {
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+}
+
+@keyframes pureGlow {
+  0% {
+    box-shadow: 0 0 5px rgba(251, 191, 36, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+  }
 }
 
 .project-title {
@@ -636,7 +661,7 @@ section {
 
 .project-row:hover .project-arrow {
   color: var(--text);
-  transform: translateX(6px);
+  transform: translateX(6px) scale(1.1);
 }
 
 /* About Section */
@@ -984,24 +1009,14 @@ footer a:hover {
   padding-bottom: 1.5rem;
   padding-top: 0.5rem;
   -webkit-overflow-scrolling: touch;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 32px, black calc(100% - 32px), transparent);
+  mask-image: linear-gradient(to right, transparent, black 32px, black calc(100% - 32px), transparent);
 }
 
-/* Scrollbar */
+/* Scrollbar (Hidden) */
 .feedback-grid::-webkit-scrollbar {
-  height: 8px;
-}
-
-.feedback-grid::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.feedback-grid::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 4px;
-}
-
-.feedback-grid::-webkit-scrollbar-thumb:hover {
-  background: var(--muted);
+  display: none;
+  height: 0;
 }
 
 .feedback-card {
@@ -1035,7 +1050,7 @@ footer a:hover {
 
 .feedback-author {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -1069,6 +1084,39 @@ footer a:hover {
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Staggered Initial Fade-in Animations */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUpAnim 0.8s ease forwards;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+
+@keyframes fadeInUpAnim {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-down {
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeInDownAnim 0.8s ease forwards;
+}
+
+@keyframes fadeInDownAnim {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes pulse {
