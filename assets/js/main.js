@@ -286,19 +286,29 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         feedbackContainer.appendChild(card);
 
-        // Auto-fetch Discord avatar via japi.rest (free, no auth required)
+        // Auto-fetch Discord avatar + username via japi.rest (free, no auth required)
         if (fb.discordUserId && !hasValidAvatar) {
           fetch(`https://japi.rest/discord/v1/user/${fb.discordUserId}`)
             .then(res => res.json())
             .then(json => {
-              if (json.data && json.data.avatarURL) {
-                const avatarContainer = card.querySelector('.feedback-avatar-container');
-                if (avatarContainer) {
-                  avatarContainer.innerHTML = `<img src="${json.data.avatarURL}?size=128" alt="${fb.name}" style="width:36px; height:36px; border-radius:50%; object-fit:cover; margin-right:12px;">`;
+              if (json.data) {
+                // Update avatar
+                if (json.data.avatarURL) {
+                  const avatarContainer = card.querySelector('.feedback-avatar-container');
+                  if (avatarContainer) {
+                    avatarContainer.innerHTML = `<img src="${json.data.avatarURL}?size=128" alt="${fb.name}" style="width:36px; height:36px; border-radius:50%; object-fit:cover; margin-right:12px;">`;
+                  }
+                }
+                // Update username if no name was manually set in config
+                if (json.data.username) {
+                  const nameEl = card.querySelector('.feedback-name');
+                  if (nameEl && fb.name === nameEl.textContent) {
+                    nameEl.textContent = json.data.username;
+                  }
                 }
               }
             })
-            .catch(() => {}); // Silently fall back to initials
+            .catch(() => {}); // Silently fall back
         }
       });
     }

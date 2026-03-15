@@ -22,9 +22,9 @@ window.portfolioConfig = {
 
   // About Section text paragraphs
   aboutParagraphs: [
-    "Hi! I'm Nyte, an 18-year-old Roblox developer from Spain with 3 years of experience creating maintainable, high-performance code. I build systems that last for a game's entire lifecycle, from simple scripts to complex mechanics depending on the project’s needs.",
-    "I use professional tools like Rojo and Wally, and strict Luau type-checking to catch bugs early. From server-authoritative combat loops to modular game state systems, I focus on clean and efficient design.",
-    "I can take a project from idea to launch, using advanced OOP, metatables, and large-scale code organization. If you need a developer to build solid Roblox systems, I’m ready to help."
+    "Hi! I'm Nyte, an 18-year-old Roblox developer from Spain with 3 years of experience creating maintainable, high-performance code. I specialize in building robust systems that last for a game's entire lifecycle, from simple scripts to complex mechanics tailored to each project.",
+    "I work with professional tools like Rojo, strict Luau type-checking, and modular development patterns to catch bugs early and keep code clean. From server-authoritative combat loops to scalable game state systems, I focus on efficiency, reliability, and long-term maintainability.",
+    "I can take a project from concept to launch, designing advanced systems using metatables, modular architecture, and large-scale code organization. If you need a developer to create solid, high-performance Roblox systems, I’m ready to help."
   ],
 
   // Skills
@@ -116,22 +116,21 @@ window.portfolioConfig = {
         { name: "Available", class: "tag-sys" },
         { name: "Commissions Open", class: "tag-lua" }
       ],
-      status: "wip",
       title: "Your Project Here",
       description: "I'm currently taking on new commissions. Let's build your next game core systems together!",
-      details: "I’m currently available for short-term commissions. If your project needs robust, scalable Luau code, feel free to reach out and discuss what you’d like built!",
+      details: "I'm currently available for short-term commissions. If your project needs robust, scalable Luau code, feel free to reach out and discuss what you'd like built!",
       links: [
         { text: "Contact Me", url: "#contact", icon: "💬" }
       ]
     }
   ],
 
+
   // UI Settings
   ui: {
     feedbackScrollSpeed: 1.2
   },
 
-  // Feedback
   feedback: [
     // Example:
     // {
@@ -152,7 +151,7 @@ window.portfolioConfig = {
     {
       name: "Test",
       role: "Game Owner",
-      discordUserId: "1176142736169115668",
+      discordUserId: "482173825631387648",
       text: "Test test test test test test test test test test test test test test test test test test test ",
       rating: 4.5
     },

@@ -780,7 +780,7 @@ section {
 .contact-layout {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2.5rem;
+  gap: 1.25rem;
 }
 
 /* Discord Embed */
@@ -792,7 +792,7 @@ section {
   background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  margin-bottom: 2rem;
+  margin-bottom: 0.75rem;
   transition: border-color 0.2s;
 }
 
