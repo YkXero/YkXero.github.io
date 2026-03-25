@@ -169,7 +169,7 @@ window.portfolioConfig = {
     {
       role: "Developer",
       discordUserId: "1110691943559737444",
-      text: "Fast working, super active and open for feedback and improvements, also really nice!",
+      text: "Quick to get things done, open to ideas, and really easy to work with.",
       rating: 5
     },
 
