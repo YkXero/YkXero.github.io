@@ -32,13 +32,13 @@ window.portfolioConfig = {
     {
       icon: "🌙",
       name: "Luau",
-      description: "Advanced Game Systems with Metatables and Type-Safe Patterns",
+      description: "Comfortable building complex systems with metatables and type-safe patterns, keeping code clean and easy to work with.",
       mastery: 95
     },
     {
       icon: "🚀",
       name: "Performance",
-      description: "Ensuring Smooth Gameplay with Optimized Client Visuals, Server Logic, and Performance-Driven Streaming",
+      description: "Keeping gameplay smooth with optimized client visuals, efficient server logic, and systems that scale well without losing performance.",
       mastery: 99
     },
     {
@@ -49,8 +49,8 @@ window.portfolioConfig = {
     },
     {
       icon: "🔧",
-      name: "Rojo & Wally",
-      description: "Professional external workflow with Rojo for syncing, Wally for package management, and Rokit for toolchains.",
+      name: "Rojo, Git, Wally",
+      description: "Well structured external workflow with Rojo, Wally, and Git, focused on clean organization and scalability.",
       mastery: 93
     },
     {
@@ -76,6 +76,20 @@ window.portfolioConfig = {
       name: "Physics & Combat",
       description: "High-performance combat and physics: hitboxes, raycasting, server authoritative logic, and custom systems",
       mastery: 95
+    }
+  ],
+
+  // Commissions
+  commissions: [
+    {
+      status: "finished",
+      title: "Swing System",
+      description: "A fast paced, spiderman inspired swinging system with momentum based movement and bhop mechanics.",
+      details: "The system focuses on speed and control, letting you build momentum and keep it as you move. You can chain bhops, adjust your movement in the air, and use the grapple in different ways to stay in motion without losing speed. (made in about 2 hours)",
+      links: [
+        { text: "Showcase swinging", url: "https://streamable.com/v5dp6f", icon: "🏹" },
+        { text: "Showcase bhop", url: "https://streamable.com/pgv9ny", icon: "🐇" }
+      ]
     }
   ],
 
@@ -134,7 +148,6 @@ window.portfolioConfig = {
   feedback: [
     // Example:
     // {
-    //   name: "ClientName",
     //   role: "Game Owner",
     //   discordUserId: "123456789012345678", // Put their ID here to fetch avatar!
     //   avatarUrl: "URL", // (Optional fallback if Discord ID fetch fails)
@@ -142,47 +155,24 @@ window.portfolioConfig = {
     //   rating: 5
     // }
     {
-      name: "Test",
       role: "Game Owner",
       discordUserId: "934568920285847552",
-      text: "Test test test test test test test test test test test test test test test test test test test ",
+      text: "I spent a lot of time working with Nyte and he is always great with communication and delivers really good code.",
       rating: 5
     },
     {
-      name: "Test",
-      role: "Game Owner",
-      discordUserId: "482173825631387648",
-      text: "Test test test test test test test test test test test test test test test test test test test ",
-      rating: 4.5
-    },
-    {
-      name: "Test",
-      role: "Game Owner",
+      role: "Developer",
       discordUserId: "741374651288256583",
-      text: "Test test test test test test test test test test test test test test test test test test test ",
-      rating: 4
+      text: "Fast working, super active and open for feedback and improvements, also really nice!",
+      rating: 5
     },
     {
-      name: "Test",
-      role: "Game Owner",
-      discordUserId: "994345953559580753",
-      text: "Test test test test test test test test test test test test test test test test test test test ",
-      rating: 3.5
+      role: "Developer",
+      discordUserId: "1110691943559737444",
+      text: "Fast working, super active and open for feedback and improvements, also really nice!",
+      rating: 5
     },
-    {
-      name: "Test",
-      role: "Game Owner",
-      discordUserId: "937769033435074581",
-      text: "Test test test test test test test test test test test test test test test test test test test ",
-      rating: 3
-    },
-    {
-      name: "Test",
-      role: "Game Owner",
-      discordUserId: "1012172995189559386",
-      text: "Test test test test test test test test test test test test test test test test test test test ",
-      rating: 0.5
-    }
+
 
   ],
 

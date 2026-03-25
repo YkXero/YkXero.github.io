@@ -113,7 +113,45 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 3. Projects Section ---
+  // --- 3. Commissions Section ---
+  const commissionsContainer = document.getElementById('commissions-container');
+  if (commissionsContainer && config.commissions) {
+    config.commissions.forEach((comm, index) => {
+      let statusHTML = '';
+      if (comm.status === 'wip') {
+        statusHTML = '<span class="commission-status tag-wip">Working on</span>';
+      } else if (comm.status === 'finished') {
+        statusHTML = '<span class="commission-status tag-finished">✓ Finished</span>';
+      }
+
+      // Ensure max 5 delay classes for stagger effect
+      const delayNum = (index % 5) + 1;
+      
+      const card = document.createElement('a');
+      card.href = comm.link && comm.link !== '#' ? comm.link : '#';
+      if (comm.link && comm.link !== '#') card.target = '_blank';
+      card.className = `commission-card fade-in-up delay-${delayNum}`;
+      card.innerHTML = `
+        <div class="commission-header">
+          <div class="commission-title">${comm.title}</div>
+          ${statusHTML}
+        </div>
+        <div class="commission-desc">${comm.description}</div>
+      `;
+
+      // Modal logic for commissions
+      if (comm.details || (comm.links && comm.links.length > 0)) {
+        card.addEventListener('click', (e) => {
+          e.preventDefault();
+          openProjectModal(comm);
+        });
+      }
+
+      commissionsContainer.appendChild(card);
+    });
+  }
+
+  // --- 4. Projects Section ---
   const projectsContainer = document.getElementById('projects-container');
   if (projectsContainer && config.projects) {
     config.projects.forEach((proj, index) => {
@@ -180,17 +218,35 @@ document.addEventListener('DOMContentLoaded', () => {
       tagsEl.innerHTML = '';
     }
 
-    // Links
+    // Links & Embeds
     const footerEl = document.getElementById('modal-footer');
+    const embedsEl = document.getElementById('modal-embeds');
     footerEl.innerHTML = '';
+    embedsEl.innerHTML = '';
+
     if (proj.links) {
       proj.links.forEach(link => {
-        const a = document.createElement('a');
-        a.href = link.url;
-        a.target = '_blank';
-        a.className = 'modal-link-btn ripple-btn';
-        a.innerHTML = `${link.icon || ''} ${link.text}`;
-        footerEl.appendChild(a);
+        // Check if this is a Streamable link
+        const streamableMatch = link.url.match(/streamable\.com\/(?:e\/)?([a-zA-Z0-9]+)/);
+        if (streamableMatch) {
+          const videoId = streamableMatch[1];
+          const wrapper = document.createElement('div');
+          wrapper.className = 'modal-embed-wrapper';
+          wrapper.innerHTML = `
+            <div class="modal-embed-label">${link.icon || '🎬'} ${link.text}</div>
+            <div class="modal-embed-container">
+              <iframe src="https://streamable.com/e/${videoId}?" allow="fullscreen" allowfullscreen frameborder="0" style="border:none; width:100%; height:100%; position:absolute; left:0; top:0;"></iframe>
+            </div>
+          `;
+          embedsEl.appendChild(wrapper);
+        } else {
+          const a = document.createElement('a');
+          a.href = link.url;
+          a.target = '_blank';
+          a.className = 'modal-link-btn ripple-btn';
+          a.innerHTML = `${link.icon || ''} ${link.text}`;
+          footerEl.appendChild(a);
+        }
       });
     }
 
@@ -268,10 +324,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Placeholder logic for avatar
+        const displayName = fb.name || "Loading...";
         const hasValidAvatar = fb.avatarUrl && fb.avatarUrl.startsWith('http');
         let initialAvatarHTML = hasValidAvatar
-          ? `<img src="${fb.avatarUrl}" alt="${fb.name}" style="width:36px; height:36px; border-radius:50%; object-fit:cover; margin-right:12px;">`
-          : `<div style="width:36px; height:36px; border-radius:50%; background:var(--border); margin-right:12px; display:flex; align-items:center; justify-content:center; font-size:12px; color:var(--text); font-weight:600;">${fb.name.charAt(0)}</div>`;
+          ? `<img src="${fb.avatarUrl}" alt="${displayName}" style="width:36px; height:36px; border-radius:50%; object-fit:cover; margin-right:12px;">`
+          : `<div style="width:36px; height:36px; border-radius:50%; background:var(--border); margin-right:12px; display:flex; align-items:center; justify-content:center; font-size:12px; color:var(--text); font-weight:600;">?</div>`;
 
         card.innerHTML = `
           <div class="feedback-stars">${stars}</div>
@@ -279,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="feedback-author" style="display:flex; align-items:center;">
             <div class="feedback-avatar-container">${initialAvatarHTML}</div>
             <div>
-              <div class="feedback-name">${fb.name}</div>
+              <div class="feedback-name">${displayName}</div>
               <div class="feedback-role">${fb.role || ''}</div>
             </div>
           </div>
@@ -299,10 +356,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     avatarContainer.innerHTML = `<img src="${json.data.avatarURL}?size=128" alt="${fb.name}" style="width:36px; height:36px; border-radius:50%; object-fit:cover; margin-right:12px;">`;
                   }
                 }
-                // Update username if no name was manually set in config
+                // Update username
                 if (json.data.username) {
                   const nameEl = card.querySelector('.feedback-name');
-                  if (nameEl && fb.name === nameEl.textContent) {
+                  if (nameEl) {
                     nameEl.textContent = json.data.username;
                   }
                 }
