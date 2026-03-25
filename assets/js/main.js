@@ -87,10 +87,27 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(data => {
         if (data.success && data.data && data.data.discord_user) {
           const user = data.data.discord_user;
+          const status = data.data.discord_status || 'offline';
+
           // Set avatar
           if (discordAvatar && user.avatar) {
             const ext = user.avatar.startsWith('a_') ? 'gif' : 'png';
             discordAvatar.src = `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.${ext}?size=128`;
+          }
+
+          // Set Status
+          const statusDot = document.getElementById('discord-status-dot');
+          const statusText = document.getElementById('discord-status-text');
+
+          if (statusDot) {
+            statusDot.className = `discord-status-dot ${status}`;
+            statusDot.style.display = 'block';
+          }
+
+          if (statusText) {
+            let displayText = status.charAt(0).toUpperCase() + status.slice(1);
+            if (status === 'dnd') displayText = 'Do Not Disturb';
+            statusText.textContent = `Currently ${displayText}`;
           }
         }
       })

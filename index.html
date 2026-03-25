@@ -9,7 +9,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css?v=3" />
+  <link rel="stylesheet" href="assets/css/style.css?v=4" />
   <link rel="icon" href="assets/img/icon.png" type="image/png" />
 </head>
 
@@ -156,10 +156,13 @@
 
         <!-- Discord Profile Embed -->
         <div class="discord-embed">
-          <img id="discord-avatar" class="discord-avatar" src="" alt="Discord Avatar" />
+          <div class="discord-avatar-wrapper">
+            <img id="discord-avatar" class="discord-avatar" src="" alt="Discord Avatar" />
+            <div id="discord-status-dot" class="discord-status-dot"></div>
+          </div>
           <div class="discord-info">
             <span class="discord-name discord-handle">_nyte._</span>
-            <span class="discord-tag">on Discord</span>
+            <span class="discord-tag" id="discord-status-text">loading status...</span>
           </div>
           <a href="#" target="_blank" id="discord-message-btn" class="btn btn-primary discord-msg-btn">Message me</a>
         </div>
@@ -219,8 +222,8 @@
 
   <div id="toast" class="toast"></div>
 
-  <script src="assets/js/config.js?v=6"></script>
-  <script src="assets/js/main.js?v=6"></script>
+  <script src="assets/js/config.js?v=7"></script>
+  <script src="assets/js/main.js?v=7"></script>
   <div class="wave-front"></div>
   <div class="bg-glow"></div>
 </body>

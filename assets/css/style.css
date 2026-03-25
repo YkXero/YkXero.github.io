@@ -853,6 +853,12 @@ section {
   border-color: var(--border-hover);
 }
 
+.discord-avatar-wrapper {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
 .discord-avatar {
   width: 48px;
   height: 48px;
@@ -860,8 +866,26 @@ section {
   object-fit: cover;
   background: var(--bg3);
   border: 2px solid var(--border);
-  flex-shrink: 0;
+  display: block;
 }
+
+.discord-status-dot {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--bg2);
+  background: #80848e; /* offline default */
+  display: none; /* hidden until loaded */
+  z-index: 2;
+}
+
+.discord-status-dot.online { background: #23a559; }
+.discord-status-dot.idle { background: #f0b232; }
+.discord-status-dot.dnd { background: #f23f43; }
+.discord-status-dot.offline { background: #80848e; }
 
 .discord-info {
   display: flex;
