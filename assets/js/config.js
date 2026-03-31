@@ -87,8 +87,8 @@ window.portfolioConfig = {
       description: "A fast paced, spiderman inspired swinging system with momentum based movement and bhop mechanics.",
       details: "The system focuses on speed and control, letting you build momentum and keep it as you move. You can chain bhops, adjust your movement in the air, and use the grapple in different ways to stay in motion without losing speed. (made in about 2 hours)",
       links: [
-        { text: "Showcase swinging", url: "https://streamable.com/v5dp6f", icon: "🏹" },
-        { text: "Showcase bhop", url: "https://streamable.com/pgv9ny", icon: "🐇" }
+        { text: "Showcase swinging", url: "https://streamable.com/lh0388", icon: "🏹" },
+        { text: "Showcase bhop", url: "https://streamable.com/unpltw", icon: "🐇" }
       ]
     }
   ],
@@ -105,9 +105,9 @@ window.portfolioConfig = {
       description: "A tactical PvP round-based Ice Tag game featuring momentum-driven movement, strategic sword combat, and a team objective system centered on freezing and thawing opponents.",
       details: "Freeze Tag is my current long-term project. It is a fast-paced PvP Ice Tag game where teams compete to immobilize opponents while saving their own. Sword strikes freeze enemies into solid ice blocks, requiring teammates to quickly use a melter to thaw them before a death timer runs out. Success depends on mastering momentum-based movement, skillfully using throwables like grenades, and precise sword combat, rewarding players who can navigate the arena effectively to defeat the opposing team or secure key objectives.",
       links: [
-        { text: "Throwables Showcase 1", url: "https://streamable.com/l88s4c", icon: "🚀" },
-        { text: "Throwables Showcase 2", url: "https://streamable.com/vuwg38", icon: "💨" },
-        { text: "Freezing Showcase", url: "https://streamable.com/nn7w55", icon: "🧊" },
+        { text: "Throwables Showcase 1", url: "https://streamable.com/j7plkf", icon: "💣" },
+        { text: "Throwables Showcase 2", url: "https://streamable.com/9sf6it", icon: "💨" },
+        { text: "Freezing/Melting Showcase", url: "https://streamable.com/ja9pu8", icon: "🧊" },
         { text: "Control point showcase", url: "https://streamable.com/1d9pbe", icon: "🎯" }
       ]
     },
