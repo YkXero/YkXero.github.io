@@ -276,6 +276,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!modalBackdrop) return;
     modalBackdrop.classList.remove('open');
     document.body.style.overflow = '';
+    
+    // Clear embeds to stop audio/video
+    const embedsEl = document.getElementById('modal-embeds');
+    if (embedsEl) embedsEl.innerHTML = '';
   }
 
   if (modalClose) modalClose.addEventListener('click', closeProjectModal);

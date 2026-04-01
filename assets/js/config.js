@@ -85,12 +85,23 @@ window.portfolioConfig = {
       status: "finished",
       title: "Swing System",
       description: "A fast paced, spiderman inspired swinging system with momentum based movement and bhop mechanics.",
-      details: "The system focuses on speed and control, letting you build momentum and keep it as you move. You can chain bhops, adjust your movement in the air, and use the grapple in different ways to stay in motion without losing speed. (made in about 2 hours)",
+      details: "The system focuses on speed and control, letting you build momentum and keep it as you move. You can chain bhops, adjust your movement in the air, and use the grapple in different ways to stay in motion without losing speed. Built in ~2h.",
       links: [
         { text: "Showcase swinging", url: "https://streamable.com/lh0388", icon: "🏹" },
         { text: "Showcase bhop", url: "https://streamable.com/unpltw", icon: "🐇" }
       ]
+    },
+    {
+      status: "finished",
+      title: "RNG Unboxing System",
+      description: "Server-authoritative unboxing with client prediction and anti-exploit safeguards.",
+      details: "A deterministic RNG system where the server controls every roll while the client predicts the result for instant visual feedback. Each case has its own luck tracking, so players can’t manipulate odds between different cases. DataStore persistence is used to prevent exploits like seed farming (rerolling by rejoining). Designed to be highly scalable and easy to customize for different case types and drop systems. Includes a React-based UI with custom rarity effects and smooth animations.",
+      links: [
+        { text: "Showcase", url: "https://streamable.com/l2xhq5", icon: "🎲" }
+      ]
     }
+
+
   ],
 
   // Projects
