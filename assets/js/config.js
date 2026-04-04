@@ -126,6 +126,15 @@ window.portfolioConfig = {
       ]
     },
     {
+      status: "wip",
+      title: "Untitled RNG Unboxing Game",
+      description: "Server-authoritative unboxing with client prediction and anti-exploit safeguards.",
+      details: "A deterministic RNG system where the server controls every roll while the client predicts the result for instant visual feedback. Each case has its own luck tracking, so players can’t manipulate odds between different cases. DataStore persistence is used to prevent exploits like seed farming (rerolling by rejoining). Designed to be highly scalable and easy to customize for different case types and drop systems. Includes a React-based UI with custom rarity effects and smooth animations. Currently my short-term own personal project.",
+      links: [
+        { text: "Showcase", url: "https://streamable.com/k9nxwm", icon: "🎲" }
+      ]
+    },
+    {
       tags: [
         { name: "Available", class: "tag-sys" },
         { name: "Commissions Open", class: "tag-lua" }
@@ -135,15 +144,6 @@ window.portfolioConfig = {
       details: "I'm currently available for short-term commissions. If your project needs robust, scalable Luau code, feel free to reach out and discuss what you'd like built!",
       links: [
         { text: "Contact Me", url: "#contact", icon: "💬" }
-      ]
-    },
-    {
-      status: "wip",
-      title: "Untitled RNG Unboxing Game",
-      description: "Server-authoritative unboxing with client prediction and anti-exploit safeguards.",
-      details: "A deterministic RNG system where the server controls every roll while the client predicts the result for instant visual feedback. Each case has its own luck tracking, so players can’t manipulate odds between different cases. DataStore persistence is used to prevent exploits like seed farming (rerolling by rejoining). Designed to be highly scalable and easy to customize for different case types and drop systems. Includes a React-based UI with custom rarity effects and smooth animations. Currently my short-term own personal project.",
-      links: [
-        { text: "Showcase", url: "https://streamable.com/k9nxwm", icon: "🎲" }
       ]
     }
   ],
