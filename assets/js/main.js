@@ -344,18 +344,18 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        // Placeholder logic for avatar
-        const displayName = fb.name || "Loading...";
+        // Avatar display
+        const displayName = fb.name || "Unknown";
         const hasValidAvatar = fb.avatarUrl && fb.avatarUrl.startsWith('http');
-        let initialAvatarHTML = hasValidAvatar
+        const avatarHTML = hasValidAvatar
           ? `<img src="${fb.avatarUrl}" alt="${displayName}" style="width:36px; height:36px; border-radius:50%; object-fit:cover; margin-right:12px;">`
-          : `<div style="width:36px; height:36px; border-radius:50%; background:var(--border); margin-right:12px; display:flex; align-items:center; justify-content:center; font-size:12px; color:var(--text); font-weight:600;">?</div>`;
+          : `<div style="width:36px; height:36px; border-radius:50%; background:var(--border); margin-right:12px; display:flex; align-items:center; justify-content:center; font-size:14px; color:var(--text); font-weight:600;">${displayName.charAt(0).toUpperCase()}</div>`;
 
         card.innerHTML = `
           <div class="feedback-stars">${stars}</div>
           <p class="feedback-text">"${fb.text}"</p>
           <div class="feedback-author" style="display:flex; align-items:center;">
-            <div class="feedback-avatar-container">${initialAvatarHTML}</div>
+            <div class="feedback-avatar-container">${avatarHTML}</div>
             <div>
               <div class="feedback-name">${displayName}</div>
               <div class="feedback-role">${fb.role || ''}</div>
@@ -363,31 +363,6 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         `;
         feedbackContainer.appendChild(card);
-
-        // Auto-fetch Discord avatar + username via japi.rest (free, no auth required)
-        if (fb.discordUserId && !hasValidAvatar) {
-          fetch(`https://japi.rest/discord/v1/user/${fb.discordUserId}`)
-            .then(res => res.json())
-            .then(json => {
-              if (json.data) {
-                // Update avatar
-                if (json.data.avatarURL) {
-                  const avatarContainer = card.querySelector('.feedback-avatar-container');
-                  if (avatarContainer) {
-                    avatarContainer.innerHTML = `<img src="${json.data.avatarURL}?size=128" alt="${fb.name}" style="width:36px; height:36px; border-radius:50%; object-fit:cover; margin-right:12px;">`;
-                  }
-                }
-                // Update username
-                if (json.data.username) {
-                  const nameEl = card.querySelector('.feedback-name');
-                  if (nameEl) {
-                    nameEl.textContent = json.data.username;
-                  }
-                }
-              }
-            })
-            .catch(() => {}); // Silently fall back
-        }
       });
     }
   }

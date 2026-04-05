@@ -157,32 +157,33 @@ window.portfolioConfig = {
   feedback: [
     // Example:
     // {
+    //   name: "Username",              // Required - displayed name
+    //   avatarUrl: "https://...",       // Optional - avatar image URL (shows initial if empty)
     //   role: "Game Owner",
-    //   discordUserId: "123456789012345678", // Put their ID here to fetch avatar!
-    //   avatarUrl: "URL", // (Optional fallback if Discord ID fetch fails)
-    //   text: "Nyte delivered exactly what I needed. Clean code, fast turnaround.",
+    //   text: "Great work!",
     //   rating: 5
     // }
     {
+      name: "mashdee",
+      avatarUrl: "https://cdn.discordapp.com/avatars/934568920285847552/f1fd5e2a1fa7ec0fe11b71b4e96c2d97.png?size=512",                    // TODO: Fill in their avatar URL
       role: "Game Owner",
-      discordUserId: "934568920285847552",
       text: "I spent a lot of time working with Nyte and he is always great with communication and delivers really good code.",
       rating: 5
     },
     {
+      name: "pumpkinjajaja",
+      avatarUrl: "https://cdn.discordapp.com/avatars/741374651288256583/2d28c2cd87403780644eab30afc0eeed.png?size=512",                    // TODO: Fill in their avatar URL
       role: "Developer",
-      discordUserId: "741374651288256583",
       text: "Fast working, super active and open for feedback and improvements, also really nice!",
       rating: 5
     },
     {
+      name: "that1kull",
+      avatarUrl: "https://cdn.discordapp.com/avatars/1110691943559737444/0e5d69bb7720602efd97893065feb84f.png?size=512",                    // TODO: Fill in their avatar URL
       role: "Developer",
-      discordUserId: "1110691943559737444",
       text: "Quick to get things done, open to ideas, and really easy to work with.",
       rating: 5
     },
-
-
   ],
 
 };
